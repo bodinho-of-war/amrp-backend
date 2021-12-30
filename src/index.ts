@@ -1,10 +1,19 @@
 import express from 'express'
+import config from '../config'
+import DbMoviesFactory from './database/factory/DbMoviesFactory';
 
 const app = express();
-const PORT = 8000;
+const PORT = config.port;
+const DB = DbMoviesFactory.create()
 
-app.get('/', (req, res) => res.send('Express + TypeScript Server'));
+app.get('/', async (req, res) => {
+    const movies = await DB.getMovies()
+    res.send(movies)
+});
 
-app.listen(PORT, () => {
+app.get('*', (req, res) => res.sendStatus(404))
+
+app.listen(PORT, async () => {
+    await DB.connect()
     console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
 });
