@@ -1,14 +1,14 @@
 version: '3'
 
 services:  
-  app:
-    build: .
-    command: npm run start:dev
-    ports:
-      - "8000:8000"
-    depends_on:
-      - mongodb
-      - redis
+  # app:
+  #   build: .
+  #   command: npm run start:dev
+  #   ports:
+  #     - "8000:8000"
+  #   depends_on:
+  #     - mongodb
+  #     - redis
   
   mongodb:
     image: mongo:4.4.4

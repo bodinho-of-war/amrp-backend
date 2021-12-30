@@ -1,5 +1,5 @@
 #!/bin/sh
 
-npm install
+# npm install
 
-npm run start:dev
+# npm run start:dev
