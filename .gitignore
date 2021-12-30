@@ -1,6 +1,10 @@
 *.env
 .docker/dbdata/*
 
+# Compiled code
+build
+
+
 # Logs
 logs
 *.log
