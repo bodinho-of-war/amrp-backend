@@ -1,5 +1,5 @@
-import Db from '../model/Db'
-import IDbMovies from '../model/IDbMovies'
+import Db from '../../Db'
+import IDbMovies from '../interfaces/IDbMovies'
 import MongoDbMovies from '../model/MongoDbMovies'
 
 export default class DbMoviesFactory {

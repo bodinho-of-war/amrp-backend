@@ -1,6 +1,6 @@
-import IDbMovies from "./IDbMovies";
+import IDbMovies from "../interfaces/IDbMovies";
 import mongoose from "mongoose";
-import config from "../../../config";
+import config from "../../../../config";
 
 const movieSchema = new mongoose.Schema({
     name: String
