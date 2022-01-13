@@ -1,9 +1,8 @@
-import { Model, connect } from "mongoose";
-import IDb from "./IDb";
+import { Model, connect, UpdateWriteOpResult } from 'mongoose'
+import IDb from './IDb'
 
 export default abstract class BaseDb<T> implements IDb<T> {
-    
-    constructor(private model: Model<T>, private uri: string) {}
+    constructor(private model: Model<T>, private uri: string) { }
 
     async connect(): Promise<void> {
         await connect(this.uri)
@@ -20,27 +19,35 @@ export default abstract class BaseDb<T> implements IDb<T> {
         try {
             register = await this.model.findById(id, projection, options)
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
         return register
     }
 
-    async findOne(conditions: Partial<Record<keyof T, unknown>>, projection?: string | Record<string, unknown>, options?: Record<string, unknown>): Promise<T | null> {
+    async findOne(
+        conditions: Partial<Record<keyof T, unknown>>,
+        projection?: string | Record<string, unknown>,
+        options?: Record<string, unknown>
+    ): Promise<T | null> {
         let register = null
         try {
             register = await this.model.findOne(conditions, projection, options)
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
         return register
     }
 
-    async find(conditions: Partial<Record<keyof T, unknown>>, projection?: string | Record<string, unknown>, options?: Record<string, unknown>): Promise<T | T[] | null> {
+    async find(
+        conditions: Partial<Record<keyof T, unknown>>,
+        projection?: string | Record<string, unknown>,
+        options?: Record<string, unknown>
+    ): Promise<T | T[] | null> {
         let register = null
         try {
             register = await this.model.find(conditions, projection, options)
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
         return register
     }
@@ -50,23 +57,47 @@ export default abstract class BaseDb<T> implements IDb<T> {
         try {
             registers = await this.model.find({})
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
         return registers
     }
 
-    update(data: Partial<Record<keyof T, unknown>>): Promise<T> {
+    async updateOne(
+        conditions: Partial<Record<keyof T, unknown>>,
+        data: Partial<Record<keyof T, unknown>>,
+        options?: Record<string, unknown>
+    ): Promise<UpdateWriteOpResult | null> {
         let register = null
         try {
-            register = await this.model.updateOne()
+            register = await this.model.updateOne(conditions, data, options)
         } catch (error) {
-            console.log(error);
+            console.log(error)
         }
         return register
     }
 
-    remove(): Promise<boolean> {
-        throw new Error("Method not implemented.");
+    async updateMany(
+        conditions: Partial<Record<keyof T, unknown>>,
+        data: Partial<Record<keyof T, unknown>>,
+        options?: Record<string, unknown>
+    ): Promise<UpdateWriteOpResult | null> {
+        let register = null
+        try {
+            register = await this.model.updateMany(conditions, data, options)
+        } catch (error) {
+            console.log(error)
+        }
+        return register
     }
 
+    async remove(conditions: Partial<Record<keyof T, unknown>>): Promise<boolean> {
+        let register = false
+        try {
+            const removed = await this.model.remove(conditions)
+            if (removed) register = true
+        } catch (error) {
+            console.log(error)
+        }
+        return register
+    }
 }
